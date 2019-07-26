@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 public class ExecutorConfig {
     @Bean
-    public Executor asyncServiceExecutor(){
+    public ThreadPoolTaskExecutor asyncServiceExecutor(){
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
         //配置核心线程数

@@ -1,10 +1,16 @@
 package com.hxh.sessioncache.controller;
 
+import com.hxh.sessioncache.runable.PrintRunabale;
+import com.hxh.sessioncache.runable.ReadRunable;
 import com.hxh.sessioncache.service.AsyncService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.concurrent.Future;
 
 
@@ -19,6 +25,9 @@ public class ThreadController {
 
     @Autowired
     private AsyncService service;
+
+    @Resource
+    private ThreadPoolTaskExecutor executor;
     @RequestMapping("ass")
     public String getThread(){
         for (int i = 0; i < 20; i++) {
@@ -44,5 +53,16 @@ public class ThreadController {
 //            a.
         }
       return "success";
+    }
+
+//    更加直接的开启线程方式
+
+    @RequestMapping("/runable")
+    public String getRunable(){
+        for (int i = 0; i < 10; i++) {
+           executor.execute(new PrintRunabale("JAVA","男",2000));
+            executor.execute(new ReadRunable("GO","高并发",5000));
+        }
+        return "success";
     }
 }
